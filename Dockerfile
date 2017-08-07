@@ -4,7 +4,7 @@ ENV HOME /root
 
 RUN apk --update upgrade \
   && apk add tor --update-cache --repository http://dl-4.alpinelinux.org/alpine/edge/community/ \
-  && apk --no-cache --no-progress add musl-dev bash gcc python python-dev py2-pip \
+  && apk --no-cache --no-progress add git musl-dev bash gcc python python-dev py2-pip \
   && pip install gevent msgpack-python \
   && apk del musl-dev gcc python-dev py2-pip \
   && rm -rf /var/cache/apk/* /tmp/* /var/tmp/* \
