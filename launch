@@ -1,0 +1,37 @@
+#!/bin/bash
+set -x 
+set -e 
+cmd="/ZeroNet/zeronet.py"
+
+if ! ${DISABLE_TOR}; then
+    tor &
+fi
+
+if [ ! x"$UI_PASSWORD" = "xNone" ]; then 
+    mv /ZeroNet/plugins/{disabled-UiPassword,UiPassword} 
+else 
+    mv /ZeroNet/plugins/{UiPassword,disabled-UiPassword}
+fi
+
+if ! ${DISABLE_TOR}; then
+    tor="always"
+else
+    tor="disable"
+fi
+
+if [ ! "$UI_PASSWORD"x = "Nonex" ]; then
+    $cmd \
+        --tor $tor \
+        --ui_ip '*' \
+        --ui_port ${ZERONET_UI_PORT} \
+        --ui_password ${UI_PASSWORD} \
+        --data_dir /root/data \
+        --homepage ${ZERONET_HOME}
+else
+    $cmd \
+        --tor $tor \
+        --ui_ip '*' \
+        --ui_port ${ZERONET_UI_PORT} \
+        --data_dir /root/data \
+        --homepage ${ZERONET_HOME}
+fi

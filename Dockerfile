@@ -22,8 +22,10 @@ VOLUME /root/data
 
 WORKDIR /root
 
-ENV ZERONET_UI_PORT=43110 ZERONET_HOME=1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D DISABLE_TOR=false
+ENV ZERONET_UI_PORT=43110 ZERONET_HOME=1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D DISABLE_TOR=false UI_PASSWORD=None
 
-CMD ( ${DISABLE_TOR} || tor & ) && python /ZeroNet/zeronet.py --tor $( ! ${DISABLE_TOR} && echo "always" || echo "disable" ) --ui_ip "*"  --ui_port ${ZERONET_UI_PORT} --data_dir /root/data --homepage ${ZERONET_HOME}
+COPY launch /root/launch
 
 EXPOSE 43110 15441
+
+CMD ["/root/launch"]
