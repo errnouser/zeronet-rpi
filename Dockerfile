@@ -1,6 +1,7 @@
 FROM resin/raspberry-pi-alpine:latest
 
 ENV HOME /root
+COPY launch /root/launch
 
 RUN apk --update upgrade \
   && apk add tor --update-cache --repository http://dl-4.alpinelinux.org/alpine/edge/community/ \
@@ -16,15 +17,14 @@ RUN apk --update upgrade \
   && echo "GeoIPFile /root/data/tor/geoip" >> /etc/tor/torrc \
   && echo "GeoIPv6File /root/data/tor/geoip6" >> /etc/tor/torrc \
   && echo "CookieAuthentication 1" >> /etc/tor/torrc \
-  && git clone https://github.com/HelloZeroNet/ZeroNet.git
+  && git clone https://github.com/HelloZeroNet/ZeroNet.git \
+  && chmod +x /root/launch
 
 VOLUME /root/data
 
 WORKDIR /root
 
 ENV ZERONET_UI_PORT=43110 ZERONET_HOME=1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D DISABLE_TOR=false UI_PASSWORD=None
-
-COPY launch /root/launch
 
 EXPOSE 43110 15441
 
